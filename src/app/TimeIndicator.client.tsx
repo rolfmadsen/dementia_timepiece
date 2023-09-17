@@ -15,7 +15,7 @@ const timePeriodInfo = [
   { label: 'Sidst på aftenen' },
 ];
 
-const getTimePeriod = (hour) => {
+const getTimePeriod = (hour: number) => {
   let timePeriod = 0;
   if (hour >= 2 && hour < 4) timePeriod = 1;
   else if (hour >= 4 && hour < 6) timePeriod = 2;
