@@ -32,7 +32,7 @@ const getTimePeriod = (hour: number) => {
 };
 
 {/*Digital Clock function*/}
-function formatFullTime(hour, minute, second) {
+function formatFullTime(hour: number, minute: number, second: number) {
   const now = new Date();
   const pad = (n) => (n < 10 ? `0${n}` : `${n}`);
   const weekdayNames = ['Søndag', 'Mandag', 'Tirsdag', 'Onsdag', 'Torsdag', 'Fredag', 'Lørdag'];
@@ -61,7 +61,7 @@ const TimeIndicator: React.FC = () => {
   const lineLength = viewportWidth * 0.95; // 95% of the viewport width
   const circleRadius = 15;
 
-  const findCurrenttimePeriodRange = (currentHour) => {
+  const findCurrenttimePeriodRange = (currentHour: number) => {
     const timePeriod = getTimePeriod(currentHour);
     let timePeriodStart = timePeriod * 2; // assuming each timePeriod starts at an even hour
     let timePeriodEnd = timePeriodStart + 2;
