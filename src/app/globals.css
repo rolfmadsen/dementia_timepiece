@@ -1,0 +1,19 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.text-10xl {
+  font-size: 10rem;
+}
+.text-9xl {
+  font-size: 9rem;
+}
+.text-8xl {
+  font-size: 8rem;
+}
+.text-7xl {
+  font-size: 7rem;
+}
+.text-6xl {
+  font-size: 6rem;
+}
