@@ -34,7 +34,7 @@ const getTimePeriod = (hour: number) => {
 {/*Digital Clock function*/}
 function formatFullTime(hour: number, minute: number, second: number) {
   const now = new Date();
-  const pad = (n) => (n < 10 ? `0${n}` : `${n}`);
+  const pad = (n: number) => (n < 10 ? `0${n}` : `${n}`);
   const weekdayNames = ['Søndag', 'Mandag', 'Tirsdag', 'Onsdag', 'Torsdag', 'Fredag', 'Lørdag'];
   const monthNames = ['Januar', 'Februar', 'Marts', 'April', 'Maj', 'Juni', 'Juli', 'August', 'September', 'Oktober', 'November', 'December'];
   
