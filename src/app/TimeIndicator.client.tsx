@@ -1,14 +1,14 @@
 import React, { useEffect, useState } from 'react';
 
 const timePeriodInfo = [
-  { label: 'Midnat kl. 24' },
-  { label: 'Midt på natten kl. 2' },
+  { label: 'Midnat' },
+  { label: 'Først på natten' },
   { label: 'Sidst på natten' },
   { label: 'Morgen' },
   { label: 'Først på formiddagen' },
   { label: 'Sidst på formiddagen' },
   { label: 'Middag' },
-  { label: 'Eftermiddag' },
+  { label: 'Først på eftermiddagen' },
   { label: 'Sidst på eftermiddagen' },
   { label: 'Aften' },
   { label: 'Første på aftenen' },
@@ -59,17 +59,16 @@ const TimeIndicator: React.FC = () => {
   const [timePeriod, settimePeriod] = useState(getTimePeriod(hour));
 
   const lineLength = viewportWidth * 0.95; // 95% of the viewport width
-  const circleRadius = 15;
+  const weekdayNames = ['Søndag', 'Mandag', 'Tirsdag', 'Onsdag', 'Torsdag', 'Fredag', 'Lørdag'];
 
   const findCurrenttimePeriodRange = (currentHour: number) => {
     const timePeriod = getTimePeriod(currentHour);
-    let timePeriodStart = timePeriod * 2; // assuming each timePeriod starts at an even hour
+    let timePeriodStart = timePeriod * 2;
     let timePeriodEnd = timePeriodStart + 2;
     return { timePeriodStart, timePeriodEnd };
   };
 
-  const [progression, setProgression] = useState(0); // New state to hold progression
-  const exactHourIntimePeriod = minute / 60 + second / 3600;
+  const [progression, setProgression] = useState(0);
   const circlePosition = (hour + minute / 60 + second / 3600) * (lineLength / 24);
   const [weekday, setWeekday] = useState("");
 
@@ -91,18 +90,18 @@ const TimeIndicator: React.FC = () => {
       const newHour = now.getHours();
       const newMinute = now.getMinutes();
       const newSecond = now.getSeconds();
-
       const { timePeriodStart, timePeriodEnd } = findCurrenttimePeriodRange(newHour);
       const exactHour = newHour + newMinute / 60 + newSecond / 3600;
       const timePeriodRange = timePeriodEnd - timePeriodStart;
-      const newProgression = (exactHour - timePeriodStart) / timePeriodRange; // updated variable name
+      const newProgression = (exactHour - timePeriodStart) / timePeriodRange;
 
+      setWeekday(weekdayNames[now.getDay()]);
       setHour(newHour);
       setMinute(newMinute);
       setSecond(newSecond);
       settimePeriod(getTimePeriod(newHour));
-      setProgression(newProgression); // Updating the progression state
-      };
+      setProgression(newProgression);
+    };
 
       const intervalId = setInterval(updateClock, 1000);
       return () => clearInterval(intervalId);
@@ -111,20 +110,21 @@ const TimeIndicator: React.FC = () => {
   return (
     <div className="h-screen flex flex-col items-center justify-center">
       {/* Time Period */}
-      <div className="text-center m-10">
-        <p className="text-9xl">{timePeriodInfo[timePeriod].label}</p>
-      </div>
+      <p className="dynamic-text-size text-center">
+        {timePeriodInfo[timePeriod].label}
+      </p>
       {/* Time Period Line of Progression */}
-      <div className="flex items-center justify-center">
-        <svg width={lineLength + 20} height="180"> {/* Changed height to accommodate activity labels */}
+      <div className="flex items-center justify-center m-10">
+        <svg width={lineLength + 20} height="300">
+          <text x="0" y="25" fontSize="30">{weekday}</text>
           <defs>
-          <linearGradient id="gradient" x1="0%" y1="0%" x2="100%" y2="0%" gradientUnits="userSpaceOnUse">
-            <stop offset="0%" style={{ stopColor: "midnightblue", stopOpacity: 1 }} />
-            <stop offset="25%" style={{ stopColor: "#ADD8E6", stopOpacity: 1 }} />
-            <stop offset="50%" style={{ stopColor: "#FFFF00", stopOpacity: 1 }} />
-            <stop offset="75%" style={{ stopColor: "#ADD8E6", stopOpacity: 1 }} />
-            <stop offset="100%" style={{ stopColor: "midnightblue", stopOpacity: 1 }} />
-          </linearGradient>
+            <linearGradient id="gradient" x1="0%" y1="0%" x2="100%" y2="0%" gradientUnits="userSpaceOnUse">
+              <stop offset="0%" style={{ stopColor: "midnightblue", stopOpacity: 1 }} />
+              <stop offset="25%" style={{ stopColor: "#ADD8E6", stopOpacity: 1 }} />
+              <stop offset="50%" style={{ stopColor: "#FFFF00", stopOpacity: 1 }} />
+              <stop offset="75%" style={{ stopColor: "#ADD8E6", stopOpacity: 1 }} />
+              <stop offset="100%" style={{ stopColor: "midnightblue", stopOpacity: 1 }} />
+            </linearGradient>
           </defs>
           <line x1="0" y1="40" x2={lineLength} y2="40" stroke="url(#gradient)" strokeWidth="8" />
           {/* Hourly Markers */}
@@ -136,7 +136,7 @@ const TimeIndicator: React.FC = () => {
                 x2={(lineLength / 24) * i}
                 y2="45"
                 stroke="black"
-                strokeWidth="2"
+                strokeWidth="4"
               />
             ))}
             {/* Activity markers */}
@@ -145,22 +145,24 @@ const TimeIndicator: React.FC = () => {
                 <circle
                   cx={(lineLength / 24) * activity.hour}
                   cy="40"
-                  r="6"
+                  r="8"
                   fill="black"
                 />
                 <text
-                  x={(lineLength / 24) * activity.hour + 10} // Adjusted x coordinate to the right
-                  y="70"  // Adjusted y coordinate
-                  fontSize="16"  // Increased font size
-                  textAnchor="end"  // Text will align from the end point
-                  transform={`rotate(-45, ${(lineLength / 24) * activity.hour + 10}, 70)`}  // Adjusted x, y in the rotation
+                  x={(lineLength / 24) * activity.hour + 10}
+                  y="70"
+                  fontSize="25"
+                  textAnchor="end"
+                  transform={`rotate(-60, ${(lineLength / 24) * activity.hour + 10}, 70)`}
                 >
                   {activity.label}
                 </text>
               </g>
             ))}
-          <line x1="0" y1="40" x2={circlePosition} y2="40" stroke="red" strokeWidth="6" />
-          <circle cx={circlePosition} cy="40" r="10" fill="red" />
+          <line x1="0" y1="40" x2={circlePosition} y2="40" stroke="red" strokeWidth="5" />
+          <g>
+            <circle cx={circlePosition} cy="40" r="15" stroke-width="10" stroke="red" fill="red" />
+          </g>
         </svg>
       </div>
 
