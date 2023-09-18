@@ -41,14 +41,14 @@ function formatFullTime(hour: number, minute: number, second: number) {
   return `Klokken ${pad(hour)}:${pad(minute)}:${pad(second)} - ${weekdayNames[now.getDay()]} den ${now.getDate()}. ${monthNames[now.getMonth()]} - ${now.getFullYear()}`;
 }
 
+const weekdayNames = ['Søndag', 'Mandag', 'Tirsdag', 'Onsdag', 'Torsdag', 'Fredag', 'Lørdag'];
+
 {/* Time Period Line of Progression - Activities*/}
 const activityInfo = [
   { label: 'Morgenmad', hour: 8 },
-  { label: 'Tag piller', hour: 7.5 },
   { label: 'Frokost', hour: 12 },
-  { label: 'Tag piller', hour: 17.5 },
   { label: 'Aftensmad', hour: 18 },
-  { label: 'Godnat og sov godt', hour: 22 },
+  { label: 'Sov godt! :-)', hour: 22 },
 ];
 
 const TimeIndicator: React.FC = () => {
@@ -58,8 +58,8 @@ const TimeIndicator: React.FC = () => {
   const [second, setSecond] = useState(new Date().getSeconds());
   const [timePeriod, settimePeriod] = useState(getTimePeriod(hour));
 
-  const lineLength = viewportWidth * 0.95; // 95% of the viewport width
-  const weekdayNames = ['Søndag', 'Mandag', 'Tirsdag', 'Onsdag', 'Torsdag', 'Fredag', 'Lørdag'];
+  const padding = 20;
+  const lineLength = viewportWidth - 2 * padding;
 
   const findCurrenttimePeriodRange = (currentHour: number) => {
     const timePeriod = getTimePeriod(currentHour);
@@ -110,65 +110,65 @@ const TimeIndicator: React.FC = () => {
   return (
     <div className="h-screen flex flex-col items-center justify-center">
       {/* Time Period */}
-      <p className="dynamic-text-size text-center">
-        {timePeriodInfo[timePeriod].label}
-      </p>
-      {/* Time Period Line of Progression */}
-      <div className="flex items-center justify-center m-10">
-        <svg width={lineLength + 20} height="300">
-          <text x="0" y="25" fontSize="30">{weekday}</text>
-          <defs>
-            <linearGradient id="gradient" x1="0%" y1="0%" x2="100%" y2="0%" gradientUnits="userSpaceOnUse">
-              <stop offset="0%" style={{ stopColor: "midnightblue", stopOpacity: 1 }} />
-              <stop offset="25%" style={{ stopColor: "#ADD8E6", stopOpacity: 1 }} />
-              <stop offset="50%" style={{ stopColor: "#FFFF00", stopOpacity: 1 }} />
-              <stop offset="75%" style={{ stopColor: "#ADD8E6", stopOpacity: 1 }} />
-              <stop offset="100%" style={{ stopColor: "midnightblue", stopOpacity: 1 }} />
-            </linearGradient>
-          </defs>
-          <line x1="0" y1="40" x2={lineLength} y2="40" stroke="url(#gradient)" strokeWidth="8" />
-          {/* Hourly Markers */}
-            {Array.from({ length: 25 }, (_, i) => i).map((_, i) => (
-              <line
-                key={i}
-                x1={(lineLength / 24) * i}
-                y1="35"
-                x2={(lineLength / 24) * i}
-                y2="45"
-                stroke="black"
-                strokeWidth="4"
-              />
-            ))}
-            {/* Activity markers */}
-            {activityInfo.map((activity, i) => (
-              <g key={i}>
-                <circle
-                  cx={(lineLength / 24) * activity.hour}
-                  cy="40"
-                  r="8"
-                  fill="black"
-                />
-                <text
-                  x={(lineLength / 24) * activity.hour + 10}
-                  y="70"
-                  fontSize="25"
-                  textAnchor="end"
-                  transform={`rotate(-60, ${(lineLength / 24) * activity.hour + 10}, 70)`}
-                >
-                  {activity.label}
-                </text>
-              </g>
-            ))}
-          <line x1="0" y1="40" x2={circlePosition} y2="40" stroke="red" strokeWidth="5" />
-          <g>
-            <circle cx={circlePosition} cy="40" r="15" stroke-width="10" stroke="red" fill="red" />
-          </g>
-        </svg>
+      <div className="flex-1 flex items-center justify-center w-full">
+        <p className="text-[clamp(3rem,10vw,10rem)] text-center">
+          {timePeriodInfo[timePeriod].label}
+        </p>
       </div>
-
+      {/* Time Period Line of Progression */}
+      <div className="flex-grow w-full flex items-center justify-center min-h-[150px] ">
+      <svg width={viewportWidth} height="50" className="w-full h-full">
+        <text x={padding} y="25" fontSize="30">{weekday}</text>
+        <defs>
+          <linearGradient id="gradient" x1="0%" y1="0%" x2="100%" y2="0%" gradientUnits="userSpaceOnUse">
+            <stop offset="0%" style={{ stopColor: "midnightblue", stopOpacity: 1 }} />
+            <stop offset="25%" style={{ stopColor: "#ADD8E6", stopOpacity: 1 }} />
+            <stop offset="50%" style={{ stopColor: "#FFFF00", stopOpacity: 1 }} />
+            <stop offset="75%" style={{ stopColor: "#ADD8E6", stopOpacity: 1 }} />
+            <stop offset="100%" style={{ stopColor: "midnightblue", stopOpacity: 1 }} />
+          </linearGradient>
+        </defs>
+        <line x1={padding} y1="40" x2={lineLength + padding} y2="40" stroke="url(#gradient)" strokeWidth="8" />
+          {Array.from({ length: 25 }, (_, i) => i).map((_, i) => (
+            <line
+              key={i}
+              x1={padding + (lineLength / 24) * i}
+              y1="35"
+              x2={padding + (lineLength / 24) * i}
+              y2="45"
+              stroke="black"
+              strokeWidth="4"
+            />
+          ))}
+          {/* Activity markers */}
+          {activityInfo.map((activity, i) => (
+            <g key={i}>
+              <circle
+                cx={padding + (lineLength / 24) * activity.hour}
+                cy="40"
+                r="8"
+                fill="black"
+              />
+              <text
+                x={padding + (lineLength / 24) * activity.hour + 10}
+                y="70"
+                fontSize="25"
+                textAnchor="end"
+                transform={`rotate(-60, ${padding + (lineLength / 24) * activity.hour + 10}, 70)`}
+              >
+                {activity.label}
+              </text>
+            </g>
+          ))}
+          <line x1={padding} y1="40" x2={padding + circlePosition} y2="40" stroke="red" strokeWidth="5" />
+          <g>
+            <circle cx={padding + circlePosition} cy="40" r="15" strokeWidth="10" stroke="red" fill="red" />
+          </g>
+        </svg> 
+      </div>
       {/* Day, Date, Year and Time */}
       <div className="absolute bottom-0 right-0 m-4 opacity-80">
-        <p className="text-xl " >
+        <p className="text-[clamp(0.8rem,2vw,1.2rem)]">
           {formatFullTime(Math.floor(hour), minute, second)}
         </p>
       </div>
