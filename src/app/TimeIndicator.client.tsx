@@ -11,7 +11,7 @@ const timePeriodInfo = [
   { label: 'Først på eftermiddagen' },
   { label: 'Sidst på eftermiddagen' },
   { label: 'Aften' },
-  { label: 'Første på aftenen' },
+  { label: 'Først på aftenen' },
   { label: 'Sidst på aftenen' },
 ];
 
