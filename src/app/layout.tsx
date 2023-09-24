@@ -1,7 +1,8 @@
-'use client'
+//'use client'
 import React from 'react'
 import './globals.css'
-import PiwikProProvider from '@piwikpro/next-piwik-pro';
+import PiwikPro from './components/PiwikProProvider'
+//import PiwikPro from './components/PiwikProProvider';
 
 export default function RootLayout({
   children,
@@ -17,12 +18,8 @@ export default function RootLayout({
         <title>Demens uret</title>
       </head>
       <body>
-        <PiwikProProvider
-          containerId={process.env.NEXT_PUBLIC_CONTAINER_ID!}
-          containerUrl={process.env.NEXT_PUBLIC_CONTAINER_URL}
-        >
-          {children}
-        </PiwikProProvider>  
+        <PiwikPro />
+        {children}
       </body>
     </html>
   )
