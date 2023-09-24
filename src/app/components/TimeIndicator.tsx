@@ -116,7 +116,7 @@ export default function TimeIndicator() {
         </p>
       </div>
       {/* Time Period Line of Progression */}
-      <div className="flex-grow w-full flex items-center justify-center min-h-[150px] ">
+      <div className="flex-grow w-full flex items-center justify-center min-h-[150px]">
       <svg width={viewportWidth} height="50" className="w-full h-full">
         <text x={padding} y="25" fontSize="30">{weekday}</text>
         <defs>
