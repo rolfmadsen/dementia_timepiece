@@ -1,11 +1,7 @@
-import Head from 'next/head';
-import type { Metadata } from 'next'
+'use client'
+import React from 'react'
 import './globals.css'
-
-export const metadata: Metadata = {
-  title: 'Demens uret',
-  description: 'Udarbejdet med Next.js',
-}
+import PiwikProProvider from '@piwikpro/next-piwik-pro';
 
 export default function RootLayout({
   children,
@@ -15,11 +11,19 @@ export default function RootLayout({
   return (
     <html lang="da">
       <head>
-        <Head>
-          <meta name="viewport" content="width=device-width, initial-scale=1" />
-        </Head>
+        <meta charSet="utf-8" />
+        <meta name="description" content="Udarbejdet med NExt.js" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <title>Demens uret</title>
       </head>
-      <body>{children}</body>
+      <body>
+        <PiwikProProvider
+          containerId={process.env.NEXT_PUBLIC_CONTAINER_ID!}
+          containerUrl={process.env.NEXT_PUBLIC_CONTAINER_URL!}
+        >
+          {children}
+        </PiwikProProvider>  
+      </body>
     </html>
   )
 }

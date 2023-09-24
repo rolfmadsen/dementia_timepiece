@@ -51,7 +51,7 @@ const activityInfo = [
   { label: 'Sov godt! :-)', hour: 22 },
 ];
 
-const TimeIndicator: React.FC = () => {
+export default function TimeIndicator() {
   const [viewportWidth, setViewportWidth] = useState(window.innerWidth);
   const [hour, setHour] = useState(new Date().getHours());
   const [minute, setMinute] = useState(new Date().getMinutes());
@@ -175,5 +175,3 @@ const TimeIndicator: React.FC = () => {
     </div>
   );
 };
-
-export default TimeIndicator;
