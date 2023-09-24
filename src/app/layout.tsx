@@ -19,7 +19,7 @@ export default function RootLayout({
       <body>
         <PiwikProProvider
           containerId={process.env.NEXT_PUBLIC_CONTAINER_ID!}
-          containerUrl={process.env.NEXT_PUBLIC_CONTAINER_URL!}
+          containerUrl={process.env.NEXT_PUBLIC_CONTAINER_URL}
         >
           {children}
         </PiwikProProvider>  

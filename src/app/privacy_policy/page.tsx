@@ -24,7 +24,7 @@ const PrivacyPolicy = () => {
             Formålet med databehandling: Analyse baseret på samtykke. Juridisk grundlag: Art. 6, stk. 1, litra a, GDPR.
           </p>
           <p>
-            Piwik PRO sender ikke data om dig til andre underdatabehandlere eller tredjeparter og bruger det ikke til egne formål. Læs mere i <a className="text-sky-600" href='https://piwik.pro/privacy-policy/#product'>Piwik PRO&#39;s privatlivspolitik (engelsk)</a>.
+            Piwik PRO sender ikke data om dig til andre underdatabehandlere eller tredjeparter og bruger det ikke til egne formål. Læs mere i <a className="text-sky-600" href='https://piwik.pro/privacy-policy/#product'>Piwik PRO&apos;s privatlivspolitik (engelsk)</a>.
           </p>
         </div>
 
