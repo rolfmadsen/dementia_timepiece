@@ -49,7 +49,7 @@ const activityInfo = [
   { label: 'Godmorgen', hour: 8 },
   { label: 'Frokost', hour: 12 },
   { label: 'Aftensmad', hour: 18 },
-  { label: 'Godnat', hour: 22 },
+  { label: 'Godnat', hour: 23 },
 ];
 
 export default function TimeIndicator() {
