@@ -118,8 +118,8 @@ export default function TimeIndicator() {
       </div>
       {/* Time Period Line of Progression */}
       <div className="flex-grow w-full flex items-center justify-center min-h-[150px]">
-        <svg width={viewportWidth} height="400" viewBox={`0 0 ${viewportWidth} 400`} className="w-full h-full">
-          <text x={padding} y="30" fontSize="60">{weekday}</text>
+        <svg width={viewportWidth} height="400" viewBox={`0 0 ${viewportWidth} 300`} className="w-full h-full">
+          <text x={padding} y="30" fontSize="50">{weekday}</text>
           <defs>
             <linearGradient id="gradient" x1="0%" y1="0%" x2="100%" y2="0%" gradientUnits="userSpaceOnUse">
               <stop offset="0%" style={{ stopColor: "midnightblue", stopOpacity: 1 }} />
@@ -153,7 +153,7 @@ export default function TimeIndicator() {
               <text
                 x={padding + (lineLength / 24) * activity.hour + 10}
                 y="70"
-                fontSize="60"
+                fontSize="50"
                 textAnchor="end"
                 transform={`rotate(-60, ${padding + (lineLength / 24) * activity.hour + 10}, 70)`}
               >
