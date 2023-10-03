@@ -3,16 +3,16 @@ import React, { useEffect, useState } from 'react';
 
 const timePeriodInfo = [
   { label: 'Midnat' },
-  { label: 'Først på natten' },
+  { label: 'Midt på natten' },
   { label: 'Sidst på natten' },
   { label: 'Morgen' },
-  { label: 'Først på formiddagen' },
+  { label: 'Midt på formiddagen' },
   { label: 'Sidst på formiddagen' },
   { label: 'Middag' },
-  { label: 'Først på eftermiddagen' },
+  { label: 'Midt på eftermiddagen' },
   { label: 'Sidst på eftermiddagen' },
   { label: 'Aften' },
-  { label: 'Først på aftenen' },
+  { label: 'Midt på aftenen' },
   { label: 'Sidst på aftenen' },
 ];
 
@@ -32,19 +32,19 @@ const getTimePeriod = (hour: number) => {
   return timePeriod;
 };
 
-{/*Digital Clock function*/}
+{/*Digital Clock function*/ }
 function formatFullTime(hour: number, minute: number, second: number) {
   const now = new Date();
   const pad = (n: number) => (n < 10 ? `0${n}` : `${n}`);
   const weekdayNames = ['Søndag', 'Mandag', 'Tirsdag', 'Onsdag', 'Torsdag', 'Fredag', 'Lørdag'];
   const monthNames = ['Januar', 'Februar', 'Marts', 'April', 'Maj', 'Juni', 'Juli', 'August', 'September', 'Oktober', 'November', 'December'];
-  
+
   return `Klokken ${pad(hour)}:${pad(minute)}:${pad(second)} - ${weekdayNames[now.getDay()]} den ${now.getDate()}. ${monthNames[now.getMonth()]} - ${now.getFullYear()}`;
 }
 
 const weekdayNames = ['Søndag', 'Mandag', 'Tirsdag', 'Onsdag', 'Torsdag', 'Fredag', 'Lørdag'];
 
-{/* Time Period Line of Progression - Activities*/}
+{/* Time Period Line of Progression - Activities*/ }
 const activityInfo = [
   { label: 'Morgenmad', hour: 8 },
   { label: 'Frokost', hour: 12 },
@@ -77,14 +77,14 @@ export default function TimeIndicator() {
     const handleResize = () => {
       setViewportWidth(window.innerWidth);
     };
-    
+
     window.addEventListener('resize', handleResize);
-    
+
     return () => {
       window.removeEventListener('resize', handleResize);
     };
   }, []);
-  
+
   useEffect(() => {
     const updateClock = () => {
       const now = new Date();
@@ -104,9 +104,9 @@ export default function TimeIndicator() {
       setProgression(newProgression);
     };
 
-      const intervalId = setInterval(updateClock, 1000);
-      return () => clearInterval(intervalId);
-    }, []);
+    const intervalId = setInterval(updateClock, 1000);
+    return () => clearInterval(intervalId);
+  }, []);
 
   return (
     <div className="h-screen flex flex-col items-center justify-center">
@@ -118,27 +118,27 @@ export default function TimeIndicator() {
       </div>
       {/* Time Period Line of Progression */}
       <div className="flex-grow w-full flex items-center justify-center min-h-[150px]">
-      <svg width={viewportWidth} height="50" className="w-full h-full">
-        <text x={padding} y="25" fontSize="30">{weekday}</text>
-        <defs>
-          <linearGradient id="gradient" x1="0%" y1="0%" x2="100%" y2="0%" gradientUnits="userSpaceOnUse">
-            <stop offset="0%" style={{ stopColor: "midnightblue", stopOpacity: 1 }} />
-            <stop offset="25%" style={{ stopColor: "#ADD8E6", stopOpacity: 1 }} />
-            <stop offset="50%" style={{ stopColor: "#FFFF00", stopOpacity: 1 }} />
-            <stop offset="75%" style={{ stopColor: "#ADD8E6", stopOpacity: 1 }} />
-            <stop offset="100%" style={{ stopColor: "midnightblue", stopOpacity: 1 }} />
-          </linearGradient>
-        </defs>
-        <line x1={padding} y1="40" x2={lineLength + padding} y2="40" stroke="url(#gradient)" strokeWidth="8" />
+        <svg width={viewportWidth} height="400" viewBox={`0 0 ${viewportWidth} 400`} className="w-full h-full">
+          <text x={padding} y="30" fontSize="60">{weekday}</text>
+          <defs>
+            <linearGradient id="gradient" x1="0%" y1="0%" x2="100%" y2="0%" gradientUnits="userSpaceOnUse">
+              <stop offset="0%" style={{ stopColor: "midnightblue", stopOpacity: 1 }} />
+              <stop offset="25%" style={{ stopColor: "#ADD8E6", stopOpacity: 1 }} />
+              <stop offset="50%" style={{ stopColor: "#FFFF00", stopOpacity: 1 }} />
+              <stop offset="75%" style={{ stopColor: "#ADD8E6", stopOpacity: 1 }} />
+              <stop offset="100%" style={{ stopColor: "midnightblue", stopOpacity: 1 }} />
+            </linearGradient>
+          </defs>
+          <line x1={padding} y1="40" x2={lineLength + padding} y2="40" stroke="url(#gradient)" strokeWidth="15" />
           {Array.from({ length: 25 }, (_, i) => i).map((_, i) => (
             <line
               key={i}
               x1={padding + (lineLength / 24) * i}
-              y1="35"
+              y1="33"
               x2={padding + (lineLength / 24) * i}
-              y2="45"
+              y2="47"
               stroke="black"
-              strokeWidth="4"
+              strokeWidth="8"
             />
           ))}
           {/* Activity markers */}
@@ -153,7 +153,7 @@ export default function TimeIndicator() {
               <text
                 x={padding + (lineLength / 24) * activity.hour + 10}
                 y="70"
-                fontSize="25"
+                fontSize="60"
                 textAnchor="end"
                 transform={`rotate(-60, ${padding + (lineLength / 24) * activity.hour + 10}, 70)`}
               >
@@ -161,11 +161,11 @@ export default function TimeIndicator() {
               </text>
             </g>
           ))}
-          <line x1={padding} y1="40" x2={padding + circlePosition} y2="40" stroke="red" strokeWidth="5" />
+          <line x1={padding} y1="40" x2={padding + circlePosition} y2="40" stroke="red" strokeWidth="8" />
           <g>
             <circle cx={padding + circlePosition} cy="40" r="15" strokeWidth="10" stroke="red" fill="red" />
           </g>
-        </svg> 
+        </svg>
       </div>
       {/* Day, Date, Year and Time */}
       <div className="absolute bottom-0 right-0 m-4 opacity-80">
