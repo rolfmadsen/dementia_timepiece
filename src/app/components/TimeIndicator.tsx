@@ -46,10 +46,10 @@ const weekdayNames = ['Søndag', 'Mandag', 'Tirsdag', 'Onsdag', 'Torsdag', 'Fred
 
 {/* Time Period Line of Progression - Activities*/ }
 const activityInfo = [
-  { label: 'Morgenmad', hour: 8 },
+  { label: 'Godmorgen', hour: 8 },
   { label: 'Frokost', hour: 12 },
   { label: 'Aftensmad', hour: 18 },
-  { label: 'Sov godt! :-)', hour: 22 },
+  { label: 'Godnat', hour: 22 },
 ];
 
 export default function TimeIndicator() {
