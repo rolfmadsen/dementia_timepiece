@@ -118,8 +118,8 @@ export default function TimeIndicator() {
       </div>
       {/* Time Period Line of Progression */}
       <div className="flex-grow w-full flex items-center justify-center min-h-[160px]">
-        <svg width={viewportWidth} height="400" viewBox={`0 0 ${viewportWidth} 300`} className="w-full h-full">
-          <text x={padding} y="50" fontSize="50">{weekday}</text>
+        <svg width={viewportWidth} height="600" viewBox={`0 0 ${viewportWidth} 300`} className="w-full h-full">
+          <text x={padding} y="55" fontSize="70">{weekday}</text>
           <defs>
             <linearGradient id="gradient" x1="0%" y1="0%" x2="100%" y2="0%" gradientUnits="userSpaceOnUse">
               <stop offset="0%" style={{ stopColor: "midnightblue", stopOpacity: 1 }} />
@@ -129,14 +129,14 @@ export default function TimeIndicator() {
               <stop offset="100%" style={{ stopColor: "midnightblue", stopOpacity: 1 }} />
             </linearGradient>
           </defs>
-          <line x1={padding} y1="60" x2={lineLength + padding} y2="60" stroke="url(#gradient)" strokeWidth="12" />
+          <line x1={padding} y1="80" x2={lineLength + padding} y2="80" stroke="url(#gradient)" strokeWidth="12" />
           {Array.from({ length: 25 }, (_, i) => i).map((_, i) => (
             <line
               key={i}
               x1={padding + (lineLength / 24) * i}
-              y1="53"
+              y1="73"
               x2={padding + (lineLength / 24) * i}
-              y2="67"
+              y2="87"
               stroke="black"
               strokeWidth="8"
             />
@@ -146,24 +146,24 @@ export default function TimeIndicator() {
             <g key={i}>
               <circle
                 cx={padding + (lineLength / 24) * activity.hour}
-                cy="60"
+                cy="80"
                 r="12"
                 fill="black"
               />
               <text
                 x={padding + (lineLength / 24) * activity.hour + 10}
-                y="110"
-                fontSize="50"
+                y="150"
+                fontSize="70"
                 textAnchor="end"
-                transform={`rotate(-30, ${padding + (lineLength / 24) * activity.hour + 10}, 70)`}
+                transform={`rotate(-30, ${padding + (lineLength / 24) * activity.hour + 10}, 100)`}
               >
                 {activity.label}
               </text>
             </g>
           ))}
-          <line x1={padding} y1="60" x2={padding + circlePosition} y2="60" stroke="red" strokeWidth="8" />
+          <line x1={padding} y1="80" x2={padding + circlePosition} y2="80" stroke="red" strokeWidth="8" />
           <g>
-            <circle cx={padding + circlePosition} cy="60" r="15" strokeWidth="10" stroke="red" fill="red" />
+            <circle cx={padding + circlePosition} cy="80" r="15" strokeWidth="10" stroke="red" fill="red" />
           </g>
         </svg>
       </div>
