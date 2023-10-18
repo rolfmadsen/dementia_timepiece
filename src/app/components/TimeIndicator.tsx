@@ -152,10 +152,10 @@ export default function TimeIndicator() {
               />
               <text
                 x={padding + (lineLength / 24) * activity.hour + 10}
-                y="150"
-                fontSize="70"
+                y="140"
+                fontSize="55"
                 textAnchor="end"
-                transform={`rotate(-30, ${padding + (lineLength / 24) * activity.hour + 10}, 100)`}
+                transform={`rotate(-30, ${padding + (lineLength / 24) * activity.hour + 10}, 110)`}
               >
                 {activity.label}
               </text>
