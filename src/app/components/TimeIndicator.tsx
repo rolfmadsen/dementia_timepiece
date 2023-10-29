@@ -18,7 +18,8 @@ const timePeriodInfo = [
 
 const getTimePeriod = (hour: number) => {
   let timePeriod = 0;
-  if (hour >= 2 && hour < 4) timePeriod = 1;
+  if (hour >= 0 && hour < 2) timePeriod = 0;
+  else if (hour >= 2 && hour < 4) timePeriod = 1;
   else if (hour >= 4 && hour < 6) timePeriod = 2;
   else if (hour >= 6 && hour < 8) timePeriod = 3;
   else if (hour >= 8 && hour < 10) timePeriod = 4;
@@ -28,7 +29,7 @@ const getTimePeriod = (hour: number) => {
   else if (hour >= 16 && hour < 18) timePeriod = 8;
   else if (hour >= 18 && hour < 20) timePeriod = 9;
   else if (hour >= 20 && hour < 22) timePeriod = 10;
-  else if (hour > 22) timePeriod = 11;
+  else if (hour > 22 && hour < 24) timePeriod = 11;
   return timePeriod;
 };
 
