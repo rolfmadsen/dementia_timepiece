@@ -29,7 +29,7 @@ const getTimePeriod = (hour: number) => {
   else if (hour >= 16 && hour < 18) timePeriod = 8;
   else if (hour >= 18 && hour < 20) timePeriod = 9;
   else if (hour >= 20 && hour < 22) timePeriod = 10;
-  else if (hour > 22 && hour < 24) timePeriod = 11;
+  else if (hour > 22) timePeriod = 11;
   return timePeriod;
 };
 
