@@ -44,7 +44,7 @@ function dayDateYear() {
   const weekdayNames = ['Søndag', 'Mandag', 'Tirsdag', 'Onsdag', 'Torsdag', 'Fredag', 'Lørdag'];
   const monthNames = ['Januar', 'Februar', 'Marts', 'April', 'Maj', 'Juni', 'Juli', 'August', 'September', 'Oktober', 'November', 'December'];
 
-  return `${weekdayNames[now.getDay()]} - ${now.getDate()}. ${monthNames[now.getMonth()]} ${now.getFullYear()}`;
+  return `${weekdayNames[now.getDay()]} ${now.getDate()}. ${monthNames[now.getMonth()]} ${now.getFullYear()}`;
 }
 
 const weekdayNames = ['Søndag', 'Mandag', 'Tirsdag', 'Onsdag', 'Torsdag', 'Fredag', 'Lørdag'];
@@ -165,14 +165,15 @@ export default function TimeIndicator() {
   };
 
   const saveEdit = (index: number) => {
+    const validatedHour = Math.max(0, Math.min(23, tempHour));
     const updatedActivityInfo = [...activityInfo];
-    updatedActivityInfo[index] = { label: tempLabel, hour: tempHour };
+    updatedActivityInfo[index] = { label: tempLabel, hour: validatedHour };
     setActivityInfo(updatedActivityInfo);
     saveActivityInfo(updatedActivityInfo);
     setEditingIndex(-1);
     setTempLabel('');
     setTempHour(0);
-  };
+  };  
 
   const deleteActivity = (index: number) => {
     const updatedActivityInfo = [...activityInfo];
@@ -181,12 +182,30 @@ export default function TimeIndicator() {
     saveActivityInfo(updatedActivityInfo);
   };
 
+  // Add a new state variable for input validity
+  const [isHourValid, setIsHourValid] = useState(true);
+
+// Updated onChange handler with proper typing
+const handleHourChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const value = e.target.value;
+  let newHour = parseInt(value, 10);
+
+  // Check if the value is within the range
+  if (isNaN(newHour) || newHour < 0 || newHour > 23) {
+    setIsHourValid(false);
+    setTempHour(0); // Reset the value or set it to a default value
+  } else {
+    setIsHourValid(true);
+    setTempHour(newHour);
+  }
+};
+
   return (
     <div className="h-screen flex flex-col items-center justify-center">
       {/* 12 Text Representation of Time Periods */}
         <div className="flex-1 flex items-center justify-center w-full">
           <p className="text-[clamp(3rem,10vw,10rem)] text-center">
-          {timePeriodInfo[timePeriod].label} - {`${hour.toString().padStart(2, '0')}:${minute.toString().padStart(2, '0')}`}
+          {timePeriodInfo[timePeriod].label} {`${hour.toString().padStart(2, '0')}:${minute.toString().padStart(2, '0')}`}
           </p>
         </div>
       {/* 24 Point Time Period Line of Progression */}
@@ -272,9 +291,12 @@ export default function TimeIndicator() {
                         />
                         <input 
                           className="border rounded p-2"
-                          type="number" 
-                          value={tempHour} 
-                          onChange={(e) => setTempHour(Number(e.target.value))} 
+                          type="number"
+                          value={tempHour}
+                          onChange={(e) => {
+                            const newHour = Math.max(0, Math.min(23, Number(e.target.value)));
+                            setTempHour(newHour);
+                          }}
                         />
                         <div className="flex space-x-2">
                           <button 
@@ -293,7 +315,7 @@ export default function TimeIndicator() {
                       </div>
                     ) : (
                       <div className="flex justify-between items-center">
-                        <span>{activity.label} - {activity.hour}</span>
+                        <span>{activity.label}: {activity.hour}</span>
                         <div className="flex space-x-2">
                           <button 
                             onClick={() => editActivity(index)}
@@ -322,11 +344,15 @@ export default function TimeIndicator() {
                   />
                   <input 
                     className="border rounded p-2"
-                    type="number" 
-                    value={tempHour} 
-                    onChange={(e) => setTempHour(Number(e.target.value))} 
-                    placeholder="Hour"
+                    type="number"
+                    value={tempHour}
+                    onChange={handleHourChange}
                   />
+                  {!isHourValid && (
+                    <p className="text-red-500 text-sm mt-1">
+                      Ugyldig værdi. Kun tal mellem 0 og 23 er tilladt.
+                    </p>
+                  )}
                   <button 
                     onClick={addActivity}
                     className="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded"
