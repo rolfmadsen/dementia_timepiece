@@ -339,7 +339,11 @@ export default function TimeIndicator() {
             </div>
           </div>
         )}
-      <button onClick={() => setShowOverlay(true)}>Tilpas aktiviteter</button>
+      <button 
+        className="text-white bg-blue-500 hover:bg-blue-600 font-bold py-1 px-2 rounded"
+        onClick={() => setShowOverlay(true)}>
+        Tilpas aktiviteter
+      </button>
     </div>
   );
 };
