@@ -39,13 +39,12 @@ const getTimePeriod = (hour: number) => {
   return timePeriod;
 };
 
-function formatFullTime(hour: number, minute: number, second: number) {
+function dayDateYear() {
   const now = new Date();
-  const pad = (n: number) => (n < 10 ? `0${n}` : `${n}`);
   const weekdayNames = ['Søndag', 'Mandag', 'Tirsdag', 'Onsdag', 'Torsdag', 'Fredag', 'Lørdag'];
   const monthNames = ['Januar', 'Februar', 'Marts', 'April', 'Maj', 'Juni', 'Juli', 'August', 'September', 'Oktober', 'November', 'December'];
 
-  return `Klokken ${pad(hour)}:${pad(minute)}:${pad(second)} - ${weekdayNames[now.getDay()]} den ${now.getDate()}. ${monthNames[now.getMonth()]} - ${now.getFullYear()}`;
+  return `${weekdayNames[now.getDay()]} - ${now.getDate()}. ${monthNames[now.getMonth()]} ${now.getFullYear()}`;
 }
 
 const weekdayNames = ['Søndag', 'Mandag', 'Tirsdag', 'Onsdag', 'Torsdag', 'Fredag', 'Lørdag'];
@@ -83,6 +82,10 @@ export default function TimeIndicator() {
 
   const padding = 20;
   const lineLength = viewportWidth - 2 * padding;
+
+  const isActivityExpired = (activityHour: number) => {
+    return hour > activityHour + 1 || (hour === activityHour + 1 && minute > 0);
+  };
 
   const findCurrenttimePeriodRange = (currentHour: number) => {
     const timePeriod = getTimePeriod(currentHour);
@@ -183,14 +186,15 @@ export default function TimeIndicator() {
       {/* 12 Text Representation of Time Periods */}
         <div className="flex-1 flex items-center justify-center w-full">
           <p className="text-[clamp(3rem,10vw,10rem)] text-center">
-            {timePeriodInfo[timePeriod].label}
+          {timePeriodInfo[timePeriod].label} - {`${hour.toString().padStart(2, '0')}:${minute.toString().padStart(2, '0')}`}
           </p>
         </div>
       {/* 24 Point Time Period Line of Progression */}
         <div className="flex-grow w-full flex items-center justify-center min-h-[160px]">
           <svg width={viewportWidth} height="600" viewBox={`0 0 ${viewportWidth} 300`} className="w-full h-full">
             {/* Weekday */}
-            <text x={padding} y="50" fontSize="70">{weekday}</text>
+            <text x={padding} y="50" fontSize="70">{dayDateYear()}</text>
+            
             {/* Line of Progression Colours */}
             <defs>
               <linearGradient id="gradient" x1="0%" y1="0%" x2="100%" y2="0%" gradientUnits="userSpaceOnUse">
@@ -215,24 +219,25 @@ export default function TimeIndicator() {
               />
             ))}
             {/* Daily activities */}
-              {activityInfo.map((activity: Activity, index: number) => (
-              <g key={index}>
-                <circle
-                  cx={padding + (lineLength / 24) * activity.hour}
-                  cy="80"
-                  r="15"
-                  fill="black"
-                />
-                <text
-                  x={padding + (lineLength / 24) * activity.hour + 10}
-                  y="140"
-                  fontSize="55"
-                  textAnchor="end"
-                  transform={`rotate(-30, ${padding + (lineLength / 24) * activity.hour + 10}, 110)`}
-                >
-                  {activity.label}
-                </text>
-              </g>
+            {activityInfo.map((activity: Activity, index: number) => (
+                <g key={index}>
+                    <circle
+                        cx={padding + (lineLength / 24) * activity.hour}
+                        cy="80"
+                        r="15"
+                        fill="black"
+                    />
+                    <text
+                        x={padding + (lineLength / 24) * activity.hour + 10}
+                        y="140"
+                        fontSize="55"
+                        textAnchor="end"
+                        transform={`rotate(-30, ${padding + (lineLength / 24) * activity.hour + 10}, 110)`}
+                        style={{ fill: isActivityExpired(activity.hour) ? "#DAE1E7" : "black" }}
+                    >
+                        {activity.label}
+                    </text>
+                </g>
             ))}
             {/* Red progression line */}
             <g>
@@ -240,12 +245,6 @@ export default function TimeIndicator() {
               <circle cx={padding + circlePosition} cy="80" r="15" strokeWidth="10" stroke="red" fill="red" />
             </g>
           </svg>
-        </div>
-      {/* Day, Date, Year and Time */}
-        <div className="absolute bottom-0 right-0 m-4 opacity-80">
-          <p className="text-[clamp(0.8rem,2vw,1.2rem)]">
-            {formatFullTime(Math.floor(hour), minute, second)}
-          </p>
         </div>
       {/* Overlay for Managing Activities */}
         {showOverlay && (
