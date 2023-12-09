@@ -1,8 +1,6 @@
 //'use client'
 import React from 'react'
 import './globals.css'
-import PiwikPro from './components/PiwikProProvider'
-//import PiwikPro from './components/PiwikProProvider';
 
 export default function RootLayout({
   children,
@@ -18,7 +16,6 @@ export default function RootLayout({
         <title>Demens uret</title>
       </head>
       <body>
-        <PiwikPro />
         {children}
       </body>
     </html>
